@@ -5,6 +5,8 @@
  */
 package Function;
 
+import GUI.Home;
+
 /**
  *
  * @author mtauf
@@ -16,6 +18,8 @@ public class Driver {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Home h = new Home();
+        h.setVisible(true);
     }
     
 }
