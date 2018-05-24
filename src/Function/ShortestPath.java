@@ -3,83 +3,115 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Function;
+package shortestpath;
+
+import java.util.ArrayList;
 
 /**
  *
  * @author indon
  */
 public class ShortestPath {
-    private static final int V=9;
     
-    public int minDistance(int dist[], Boolean sptSet[])
+    private int col;
+    private ArrayList<Double> Min = new ArrayList<>();
+    private ArrayList<Integer> path = new ArrayList<>();
+    
+    public void showMin()
     {
-        int min = Integer.MAX_VALUE, min_index=-1;
-		
-        for(int v = 0; v < V; v++)
+        System.out.println("Minimum : ");
+        for(Double min : Min)
         {
-            if(sptSet[v]==false && dist[v]<=min)
-            {
-                min = dist[v];
-                min_index = v;
-            }
+            System.out.print(min + " ");
         }
-		
-        return min_index;
-    }
-	
-    public void printSolution(int dist[], int n)
-    {
-        System.out.println("Vertex   Distance from Source");
-        for(int i=0; i<V; i++)
-        {
-            System.out.println(i+" tt "+dist[i]);
-        }
+        System.out.println("");
     }
     
-    public void dijkstra(int graph[][], int src)
+    public void showPath()
     {
-        int dist[] = new int[V];
-        Boolean sptSet[] = new Boolean[V];
-		
-        for(int i=0; i<V; i++)
+        System.out.println("Path : ");
+        for(Integer pos : path)
         {
-            dist[i] = Integer.MAX_VALUE;
-            sptSet[i] = false;
+            System.out.print(pos + " ");
         }
-		
-        dist[src] = 0;
-		
-        for(int count=0; count<V-1; count++)
+        System.out.println("");
+    }
+    
+    public ArrayList<Integer> getPath()
+    {
+        return this.path;
+    }
+    
+    public double getMin()
+    {
+        double sum = 0;
+        for(Double d : Min)
         {
-            int u = minDistance(dist,sptSet);
-			
-            sptSet[u] = true;
-            
-            for(int v=0; v<V; v++)
+            sum += d;
+        }
+        return sum;
+    }
+    
+    private void printData(double data[][])
+    {
+        for(int i=0; i<data.length; i++)
+        {
+            for(int j=0; j<data.length; j++)
             {
-                if (!sptSet[v] && graph[u][v]!=0 && dist[u] != Integer.MAX_VALUE && dist[u]+graph[u][v] < dist[v])
-                {
-                    dist[v] = dist[u] + graph[u][v];
-                }
+                System.out.print(data[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+    
+    private void setZero(double data[][], int col)
+    {
+        path.add(col);
+        for(int i=0; i<data.length; i++)
+        {
+            data[i][col] = 0;
+        }
+    }
+    
+    private double getMin(double data[][], int row)
+    {
+        double min = Integer.MAX_VALUE;
+        for(int i=0; i<data.length; i++)
+        {
+            if(data[row][i]<=min && data[row][i]!=0)
+            {
+                min = data[row][i];
+                col = i;
             }
         }
-		
-        printSolution(dist, V);
+        Min.add(min);
+        return min;
+    }
+    
+    public void shortestPath(double data[][], int start, int finish)
+    {
+        col = start;
+        while(col!=finish)
+        {
+            setZero(data, col);
+            printData(data);
+            System.out.println("MIN : " + getMin(data, col) + " COL : " + col + "\n");
+        }
+        path.add(finish);
     }
     
     public static void main (String[] args) {
-        int graph[][] = new int[][]{{0, 4, 0, 0, 0, 0, 0, 8, 0},
-                                  {4, 0, 8, 0, 0, 0, 0, 11, 0},
-                                  {0, 8, 0, 7, 0, 4, 0, 0, 2},
-                                  {0, 0, 7, 0, 9, 14, 0, 0, 0},
-                                  {0, 0, 0, 9, 0, 10, 0, 0, 0},
-                                  {0, 0, 4, 14, 10, 0, 2, 0, 0},
-                                  {0, 0, 0, 0, 0, 2, 0, 1, 6},
-                                  {8, 11, 0, 0, 0, 0, 1, 0, 7},
-                                  {0, 0, 2, 0, 0, 0, 6, 7, 0}
-                                 };
-        ShortestPath t = new ShortestPath();
-        t.dijkstra(graph, 0);
+        double data[][] = new double[][]{{0, 6.0, 3.0, 0},
+                                         {6.0, 0, 4.0, 1.0},
+                                         {3.0, 4.0, 0, 1},
+                                         {0, 1.0, 1.0, 0}
+                                        };
+        ShortestPath sp = new ShortestPath();
+        int start = 0;
+        int finish = 1;
+        sp.shortestPath(data, start, finish);
+        sp.showMin();
+        sp.showPath();
+        System.out.println("Minimum : " + sp.getMin());
     }
 }
