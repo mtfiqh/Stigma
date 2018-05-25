@@ -7,6 +7,7 @@ package GUI;
 
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +24,35 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         setLocationRelativeTo(null);
+        setAllColorDefault();
+    }
+    public void setAllColorDefault(){
+        butt_0.setBackground(Color.white);
+        butt_1.setBackground(Color.white);
+        butt_2.setBackground(Color.white);
+        butt_3.setBackground(Color.white);
+        butt_4.setBackground(Color.white);
+        butt_5.setBackground(Color.white);
+        butt_6.setBackground(Color.white);
+        butt_7.setBackground(Color.white);
+        butt_8.setBackground(Color.white);
+        butt_9.setBackground(Color.white);
+        butt_10.setBackground(Color.white);
+        butt_11.setBackground(Color.white);
+        butt_12.setBackground(Color.white);
+        butt_13.setBackground(Color.white);
+        butt_14.setBackground(Color.white);
+        butt_15.setBackground(Color.white);
+        butt_16.setBackground(Color.white);
+        butt_17.setBackground(Color.white);
+        butt_18.setBackground(Color.white);
+        butt_19.setBackground(Color.white);
+        butt_20.setBackground(Color.white);
+        butt_21.setBackground(Color.white);
+        butt_22.setBackground(Color.white);
+        butt_23.setBackground(Color.white);
+        startText.setText("-");
+        endText.setText("-");
     }
     /** SelectedButton :
      * Jika start belum dipilih, set start node
@@ -34,35 +64,45 @@ public class Home extends javax.swing.JFrame {
     public void selectedButton(int node, JButton butt){
         if(selectNodeStart==-1){
             if(selectNodeEnd==node){
-                buttEnd.setBackground(Color.LIGHT_GRAY);
+                buttEnd.setBackground(Color.white);
                 selectNodeEnd=-1;
             }else{
                 selectNodeStart=node;
                 buttStart=butt;
-                butt.setBackground(Color.red);
+                butt.setBackground(Color.green);
             }
         }else{
             if(selectNodeStart==node){
                 selectNodeStart=-1;
                 buttStart=null;
-                butt.setBackground(Color.lightGray);
+                butt.setBackground(Color.white);
             }else if(selectNodeEnd==node){
                 selectNodeEnd=-1;
                 buttEnd=null;
-                butt.setBackground(Color.lightGray);
+                butt.setBackground(Color.white);
             }else{
                 System.out.println("in1");
                 if(buttEnd!=null){
-                    buttEnd.setBackground(Color.lightGray);
+                    buttEnd.setBackground(Color.white);
                 }
                 buttEnd=butt;
-                butt.setBackground(Color.BLUE);
+                butt.setBackground(Color.red);
                 selectNodeEnd=node;
             }
         }
         
-        startText.setText(String.valueOf(selectNodeStart));
-        endText.setText(String.valueOf(selectNodeEnd));
+        
+        if(selectNodeStart==-1){
+            startText.setText("-");
+        }else{
+            startText.setText(String.valueOf(selectNodeStart));
+            
+        }
+        if(selectNodeEnd==-1){
+            endText.setText("-");
+        }else{
+            endText.setText(String.valueOf(selectNodeEnd));
+        }
     }
 
     /**
@@ -104,7 +144,7 @@ public class Home extends javax.swing.JFrame {
         endText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        butt_check = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
@@ -336,9 +376,14 @@ public class Home extends javax.swing.JFrame {
         jLabel3.setText("START NODE :");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 620, -1, -1));
 
-        jButton2.setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
-        jButton2.setText("CHECK SHORTEST PATH");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 620, 220, 80));
+        butt_check.setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
+        butt_check.setText("CHECK SHORTEST PATH");
+        butt_check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butt_checkActionPerformed(evt);
+            }
+        });
+        getContentPane().add(butt_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 620, 220, 80));
 
         jScrollPane1.setEnabled(false);
 
@@ -476,6 +521,15 @@ public class Home extends javax.swing.JFrame {
         selectedButton(Integer.parseInt(butt_23.getText()), butt_23);
     }//GEN-LAST:event_butt_23ActionPerformed
 
+    private void butt_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butt_checkActionPerformed
+        if(selectNodeStart==-1 || selectNodeEnd==-1){
+            JOptionPane.showMessageDialog(this, "Tentukan titik awal dan akhir!");
+        }else{
+            //jika berhasil
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butt_checkActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -536,9 +590,9 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton butt_7;
     private javax.swing.JButton butt_8;
     private javax.swing.JButton butt_9;
+    private javax.swing.JButton butt_check;
     private javax.swing.JTextField endText;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
