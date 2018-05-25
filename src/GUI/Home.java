@@ -8,24 +8,30 @@ package GUI;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import Function.ShortestPath;
 
 /**
  *
  * @author GOCCHAN
  */
 public class Home extends javax.swing.JFrame {
-
+    
+    private double[][] data = new double[][]{};
+    private ShortestPath sp = new ShortestPath();
+    
     /**
      * Creates new form Home
      */
     
-    int selectNodeStart=-1,selectNodeEnd=-1; //sesuatu yang dibutuhkan untuk mendapatkan apakah sudah terpilih node start atau akhirnya
-    JButton buttStart=null, buttEnd=null;
+    private int selectNodeStart=-1,selectNodeEnd=-1; //sesuatu yang dibutuhkan untuk mendapatkan apakah sudah terpilih node start atau akhirnya
+    private JButton buttStart=null, buttEnd=null;
+    
     public Home() {
         initComponents();
         setLocationRelativeTo(null);
         setAllColorDefault();
     }
+    
     public void setAllColorDefault(){
         butt_0.setBackground(Color.white);
         butt_1.setBackground(Color.white);
@@ -104,6 +110,35 @@ public class Home extends javax.swing.JFrame {
             endText.setText(String.valueOf(selectNodeEnd));
         }
     }
+    
+    public void setMatrix(double data[][])
+    {
+        this.data = data;
+    }
+    
+    private void finalAction()
+    {
+        try {
+            int start = Integer.parseInt(startText.getText());
+            int finish = Integer.parseInt(endText.getText());
+            System.out.println(start + " " + finish);
+            for(int i=0; i<data.length; i++)
+            {
+                for(int j=0; j<data.length; j++)
+                {
+                    System.out.print(data[i][j] + " ");
+                }
+                System.out.println("");
+            }
+            //sp.shortestPath(data, start, finish);
+            String result = "Min : " + sp.getMin() + "\n" +
+                            "Path : " + sp.getPath().toString();
+            System.out.println(result);
+            resultField.setText(result);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Something Error");
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -146,7 +181,7 @@ public class Home extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         butt_check = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        resultField = new javax.swing.JTextArea();
 
         jButton1.setText("jButton1");
 
@@ -387,10 +422,11 @@ public class Home extends javax.swing.JFrame {
 
         jScrollPane1.setEnabled(false);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        resultField.setEditable(false);
+        resultField.setColumns(20);
+        resultField.setRows(5);
+        resultField.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jScrollPane1.setViewportView(resultField);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 710, 490, -1));
 
@@ -526,6 +562,7 @@ public class Home extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tentukan titik awal dan akhir!");
         }else{
             //jika berhasil
+            finalAction();
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_butt_checkActionPerformed
@@ -560,7 +597,34 @@ public class Home extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                double data[][] = new double[][]{{0, 0, 1.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.38, 0, 0, 0, 0, 0},
+                                         {1.1, 0, 0, 0, 0, 0, 0.36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.68, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0.22, 0, 0, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.17, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0.22, 0, 0.41, 0, 0, 0, 0, 0, 0, 0, 0.99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0.41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0.36, 0, 0, 0, 0, 0.55, 0.74, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0.45, 0, 0, 0.55, 0, 0, 0, 0, 0.76, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0.74, 0, 0, 0.59, 0, 0, 0, 0, 0.16, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0.59, 0, 0.36, 0, 0, 0, 0.78, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0.36, 0, 0.21, 0, 0, 0, 0.69, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0.76, 0, 0, 0.21, 0, 0.48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.48, 0, 0.13, 0, 0, 0.52, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0.99, 0, 0, 0, 0, 0, 0, 0, 0.13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.94, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0.16, 0.78, 0, 0, 0, 0, 0, 0, 0, 0.85, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.69, 0, 0, 0, 0, 0, 0.32, 1.37, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.52, 0, 0, 0.32, 0, 0, 0, 0, 0.67, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.85, 1.37, 0, 0, 0, 1.4, 0, 0, 0, 0},
+                                         {0, 0.38, 0.68, 0.17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.4, 0, 0, 1, 0, 0, 1.5},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.67, 0, 0, 1, 0, 0.1, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.1, 0, 0.62, 0.38},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.94, 0, 0, 0, 0, 0, 0, 0, 0.62, 0, 1},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.5, 0, 0.38, 1, 0},
+                                        };
+                Home h = new Home();
+                h.setMatrix(data);
+                h.setVisible(true);
             }
         });
     }
@@ -597,7 +661,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea resultField;
     private javax.swing.JTextField startText;
     // End of variables declaration//GEN-END:variables
 }
