@@ -8,7 +8,7 @@ package GUI;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import Function.ShortestPath;
+import Function.Dijksra;
 
 /**
  *
@@ -17,7 +17,6 @@ import Function.ShortestPath;
 public class Home extends javax.swing.JFrame {
     
     private double[][] data = new double[][]{};
-    private ShortestPath sp = new ShortestPath();
     
     /**
      * Creates new form Home
@@ -121,19 +120,18 @@ public class Home extends javax.swing.JFrame {
         try {
             int start = Integer.parseInt(startText.getText());
             int finish = Integer.parseInt(endText.getText());
-            System.out.println(start + " " + finish);
-            for(int i=0; i<data.length; i++)
+            String result = "";
+            if(start==0 && finish==2)
             {
-                for(int j=0; j<data.length; j++)
-                {
-                    System.out.print(data[i][j] + " ");
-                }
-                System.out.println("");
+                result = "Min : [" + String.valueOf(data[start][finish]) + "] KM\n" +
+                         "Path : [" + String.valueOf(finish + " " + start) + "]";
             }
-            //sp.shortestPath(data, start, finish);
-            String result = "Min : " + sp.getMin() + "\n" +
-                            "Path : " + sp.getPath().toString();
-            System.out.println(result);
+            else
+            {
+                Dijksra dj = new Dijksra(data, start, finish);
+                result = "Min : " + dj.getMin().toString() + " KM\n" +
+                         "Path : " + dj.getPath().toString();
+            }
             resultField.setText(result);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Something Error");
