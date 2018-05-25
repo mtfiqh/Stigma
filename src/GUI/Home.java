@@ -118,8 +118,9 @@ public class Home extends javax.swing.JFrame {
     private void finalAction()
     {
         try {
-            int start = Integer.parseInt(startText.getText());
-            int finish = Integer.parseInt(endText.getText());
+            //dibalik agar sesuai
+            int start = selectNodeEnd;
+            int finish = selectNodeStart;
             String result = "";
             if(start==0 && finish==2)
             {
